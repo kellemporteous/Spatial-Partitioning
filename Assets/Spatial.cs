@@ -40,7 +40,7 @@ public class Spatial : MonoBehaviour {
             c.m_radius = Random.Range(1, 49);
             int leftSide = (int)(c.m_pos.x - c.m_radius) / gridSize;
             int rightSide = (int)(c.m_pos.x + c.m_radius) / gridSize;
-            int bottomSide = (int)(c.m_pos.y - c.m_radius) / gridSize;
+            int bottomSide = (int)(c.m_pos.y + c.m_radius) / gridSize;
             int topSide = (int)(c.m_pos.y - c.m_radius) / gridSize;
 
             if (leftSide < 0)
@@ -51,18 +51,18 @@ public class Spatial : MonoBehaviour {
             {
                 rightSide = cellAmount - 1;
             }
-            if (bottomSide < 0)
+            if (topSide < 0)
             {
-                bottomSide = 0;
+                topSide = 0;
             }
-            if (topSide > cellAmount - 1)
+            if (bottomSide > cellAmount - 1)
             {
-                topSide = cellAmount - 1;
+                bottomSide = cellAmount - 1;
             }
 
             for (int x = leftSide; x <= rightSide; x++)
             {
-                for (int y = bottomSide; y <= topSide; y++)
+                for (int y = topSide; y <= bottomSide; y++)
                 {
                     gridArray[x, y].circles.Add(c);
                 }
@@ -76,8 +76,8 @@ public class Spatial : MonoBehaviour {
             for (int x = 0; x < 1024; ++x)
             {
                 float value = 0;
-                int x_ = (int)x / 64;
-                int y_ = (int)y / 64;
+                int x_ = (int)x / (1024/ cellAmount);
+                int y_ = (int)y / (1024 / cellAmount);
                 for (int i = 0; i < gridArray[x_, y_].circles.Count; ++i)
                 {
                     float d = (new Vector2((float)x, (float)y) - gridArray[x_, y_].circles[i].m_pos).magnitude;
